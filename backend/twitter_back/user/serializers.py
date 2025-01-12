@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Profile
 from rest_framework.authtoken.models import Token
-from twitter_back.utils import get_serializer_class
+
 
 
 
@@ -43,12 +43,17 @@ class RegisterSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     user = RegisterSerializer(read_only=True)
     reposted_posts = serializers.SerializerMethodField()
+    liked_posts = serializers.SerializerMethodField()
     class Meta:
         model = Profile
-        fields = ['id', 'user', 'bio', 'reposted_posts', 'created_at']
+        fields = ['id', 'user', 'bio', 'reposted_posts', 'liked_posts', 'created_at']
         read_only_fields = ['id', 'created_at']
 
 
     def get_reposted_posts(self, obj): 
-        PostSerializer = get_serializer_class('post.serializers.PostSerializer')
-        return PostSerializer(obj.reposted_posts.all(), many=True).data
+        reposted_posts = obj.reposted_posts.all()
+        return [{'id': post.id ,'content': post.content, 'author': post.author.user.username} for post in reposted_posts]
+
+    def get_liked_posts(self, obj):
+        liked_posts = obj.liked_posts.all()
+        return [{'id': post.id ,'content': post.content, 'author': post.author.user.username} for post in liked_posts]
