@@ -1,11 +1,14 @@
 import type { Config } from "tailwindcss";
+import flowbite from "flowbite/plugin"
 
 export default {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/flowbite/**/*.{js, jsx, ts, tsx}",
   ],
+  darkMode: 'selector',
   theme: {
     extend: {
       colors: {
@@ -14,5 +17,7 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    flowbite,
+  ],
 } satisfies Config;
