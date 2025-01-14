@@ -2,6 +2,9 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Profile
 from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.exceptions import ValidationError
 
 
 
@@ -27,17 +30,22 @@ class RegisterSerializer(serializers.ModelSerializer):
     
 
     def create(self, validated_data):
-        username = validated_data.get('username')
-        first_name = validated_data.get('first_name')
-        last_name = validated_data.get('last_name')
         email = validated_data.get('email')
-        password = validated_data.get('password')
+        try:
+            existing_user = User.objects.get(email=email)
+            raise ValidationError({'email': ['A user with that email already exists']}, code=status.HTTP_400_BAD_REQUEST)
+        except User.DoesNotExist:
+            username = validated_data.get('username')
+            first_name = validated_data.get('first_name')
+            last_name = validated_data.get('last_name')
+            password = validated_data.get('password')
 
-        user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email, password=password)
-        user.save()
-        profile = Profile.objects.create(user=user)
-        profile.save()
-        return user
+            user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email, password=password)
+            user.save()
+            profile = Profile.objects.create(user=user)
+            profile.save()
+            return user
+
 
 
 class ProfileSerializer(serializers.ModelSerializer):
