@@ -24,19 +24,12 @@ def like_post(request, pk):
     profile = request.user.profile
     post = get_object_or_404(Post, pk=pk)
     if post.likes.filter(id=profile.id).exists():
-        return Response({"error": "Already liked"}, status.HTTP_400_BAD_REQUEST)
+        post.likes.remove(profile)
+        return Response({"message": "Post unliked"}, status.HTTP_200_OK)
     post.likes.add(profile)
-    return Response({"message": "Post liked"}, status.HTTP_201_CREATED)
+    return Response({"message": "Post liked"}, status.HTTP_200_OK)
 
 
-@api_view(["GET"])
-def unlike_post(request, pk):
-    profile = request.user.profile
-    post = get_object_or_404(Post, pk=pk)
-    if not post.likes.filter(id=profile.id).exists():
-        return Response({"error": "Not liked"}, status.HTTP_400_BAD_REQUEST)
-    post.likes.remove(profile)
-    return Response({"message": "Post unliked"}, status.HTTP_201_CREATED)
 
 
 @api_view(["GET"])
@@ -44,16 +37,11 @@ def repost_post(request, pk):
     profile = request.user.profile
     post = get_object_or_404(Post, pk=pk)
     if profile.reposted_posts.filter(id=post.id).exists():
-        return Response({"error": "Already reposted"}, status.HTTP_400_BAD_REQUEST)
+        profile.reposted_posts.remove(post)
+        return Response({"message": "Post unreposted"}, status.HTTP_200_OK)
     profile.reposted_posts.add(post)
-    return Response({"message": "Post reposted"}, status.HTTP_201_CREATED)
+    return Response({"message": "Post reposted"}, status.HTTP_200_OK)
 
 
-@api_view(["GET"])
-def unrepost_post(request, pk):
-    profile = request.user.profile
-    post = get_object_or_404(Post, pk=pk)
-    if not profile.reposted_posts.filter(id=post.id).exists():
-        return Response({"error": "Not reposted"}, status.HTTP_400_BAD_REQUEST)
-    profile.reposted_posts.remove(post)
-    return Response({"message": "Post unreposted"}, status.HTTP_201_CREATED)
+
+

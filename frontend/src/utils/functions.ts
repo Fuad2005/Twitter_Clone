@@ -21,7 +21,9 @@ export const GetUserByToken = async (token: string, dispatch: any) => {
             bio: res.data.bio,
             created_at: res.data.created_at,
             reposted_posts: res.data.reposted_posts,
-            liked_posts: res.data.liked_posts
+            liked_posts: res.data.liked_posts,
+            followers: res.data.followers,
+            following: res.data.following
         }))
     }
     catch (err) {

@@ -52,9 +52,11 @@ class ProfileSerializer(serializers.ModelSerializer):
     user = RegisterSerializer(read_only=True)
     reposted_posts = serializers.SerializerMethodField()
     liked_posts = serializers.SerializerMethodField()
+    followers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    following = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = Profile
-        fields = ['id', 'user', 'bio', 'reposted_posts', 'liked_posts', 'created_at']
+        fields = ['id', 'user', 'bio', 'reposted_posts', 'liked_posts', 'created_at', 'followers', 'following']
         read_only_fields = ['id', 'created_at']
 
 

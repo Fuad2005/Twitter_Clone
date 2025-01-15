@@ -48,7 +48,7 @@ export default function Login({}) {
                 }
             })
         })
-    }, [formData, router])
+    }, [formData, router, dispatch])
 
     React.useEffect(() => {
         const token = localStorage.getItem("token");
