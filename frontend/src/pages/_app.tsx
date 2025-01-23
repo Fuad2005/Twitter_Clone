@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import 'flowbite';
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode, useEffect, createContext } from "react";
 import type { AppProps } from "next/app";
 import { store } from "@/redux/store/store";
 import { Provider, useDispatch } from "react-redux";
@@ -12,6 +12,13 @@ import Footer from "@/components/footer/Footer";
 interface AppInitializerProps {
   children: ReactNode;
 }
+
+interface AppContextProps { 
+  tokenCheck: number; 
+  setTokenCheck: React.Dispatch<React.SetStateAction<number>>; 
+}
+
+export const AppContext = createContext<AppContextProps | undefined>(undefined)
 
 const AppInitializer: React.FC<AppInitializerProps> = ({ children }) => {
   const dispatch = useDispatch();
@@ -27,13 +34,18 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ children }) => {
 };
 
 function App({ Component, pageProps }: AppProps) {
+
+  const [tokenCheck, setTokenCheck] = React.useState<number>(0)
+
   return (
     <Provider store={store}>
-      <AppInitializer>
-        <Header />
-        <Component {...pageProps} />
-        <Footer />
-      </AppInitializer>
+      <AppContext.Provider value={{tokenCheck, setTokenCheck}}>
+        <AppInitializer>
+          <Header />
+          <Component {...pageProps} />
+          <Footer />
+        </AppInitializer>
+      </AppContext.Provider>
     </Provider>
   );
 }

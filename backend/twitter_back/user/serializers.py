@@ -52,18 +52,23 @@ class ProfileSerializer(serializers.ModelSerializer):
     user = RegisterSerializer(read_only=True)
     reposted_posts = serializers.SerializerMethodField()
     liked_posts = serializers.SerializerMethodField()
+    posts = serializers.SerializerMethodField()
     followers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     following = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = Profile
-        fields = ['id', 'user', 'bio', 'reposted_posts', 'liked_posts', 'created_at', 'followers', 'following']
+        fields = ['id', 'user', 'bio', 'posts', 'reposted_posts', 'liked_posts', 'created_at', 'followers', 'following']
         read_only_fields = ['id', 'created_at']
 
 
     def get_reposted_posts(self, obj): 
         reposted_posts = obj.reposted_posts.all()
-        return [{'id': post.id ,'content': post.content, 'author': post.author.user.username} for post in reposted_posts]
+        return [{'id': post.id ,'content': post.content, 'author': post.author.user.username, 'created_at': post.created_at} for post in reposted_posts]
 
     def get_liked_posts(self, obj):
         liked_posts = obj.liked_posts.all()
-        return [{'id': post.id ,'content': post.content, 'author': post.author.user.username} for post in liked_posts]
+        return [{'id': post.id ,'content': post.content, 'author': post.author.user.username, 'created_at': post.created_at} for post in liked_posts]
+
+    def get_posts(self, obj):
+        posts = obj.posts.all()
+        return [{'id': post.id ,'content': post.content, 'author': post.author.user.username, 'created_at': post.created_at} for post in posts]

@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useDispatch } from 'react-redux';
 import { GetUserByToken } from '@/utils/functions';
+import { AppContext } from '@/pages/_app';
 
 
 
@@ -16,13 +17,18 @@ export default function Login({}) {
         password: "",
     })
 
+
+    const [showPass, setShowPass] = React.useState<boolean>(false)
     const [errorMessage, setErrorMessage] = React.useState<string>("")
     const [loading, setLoading] = React.useState<boolean>(false)
     const router = useRouter()
     const dispatch = useDispatch()
+    const setTokenCheck = React.useContext(AppContext)?.setTokenCheck
+    
 
 
     const handleInput = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+            e.preventDefault()
             setErrorMessage("")
             const { name, value }  = e.target
             setFormData({ ...formData, [name]: value })
@@ -36,6 +42,7 @@ export default function Login({}) {
         .then(res => {
             console.log(res)
             localStorage.setItem("token", res.data.token)
+            setTokenCheck(prev => prev+1)
             GetUserByToken(res.data.token, dispatch)
             router.push('/')
             
@@ -48,7 +55,7 @@ export default function Login({}) {
                 }
             })
         })
-    }, [formData, router, dispatch])
+    }, [formData, router, dispatch, setTokenCheck])
 
     React.useEffect(() => {
         const token = localStorage.getItem("token");
@@ -91,28 +98,35 @@ export default function Login({}) {
                 required
               />
             </div>
-            <div>
+            <div className='relative'>
               <label
                 htmlFor="password"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Password
               </label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                onChange={handleInput}
-                value={formData.password}
-                placeholder="••••••••"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required
-              />
+                <input
+                  type={showPass ? "text" : 'password'}
+                  name="password"
+                  id="password"
+                  onChange={handleInput}
+                  value={formData.password}
+                  placeholder="••••••••"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
+                />
+                {/* <button className='absolute top-10 right-6' onClick={(e) => {e.preventDefault(); setShowPass(!showPass)}}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-eye" viewBox="0 0 16 16">
+                  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                </svg>
+                </button> */}
             </div>
            
             <button
               type="submit"
               className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              disabled={loading}
             >
               {loading ? "Loading..." : "Sign in"}
             </button>

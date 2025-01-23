@@ -11,6 +11,7 @@ const initialState: IUser = {
     token: '',
     bio: '',
     created_at: '',
+    posts: [], 
     reposted_posts: [], 
     liked_posts: [],
     followers: [],
@@ -31,6 +32,7 @@ export const userSlice = createSlice({
             state.token = action.payload.token
             state.bio = action.payload.bio
             state.created_at = action.payload.created_at
+            state.posts = action.payload.posts
             state.reposted_posts = action.payload.reposted_posts
             state.liked_posts = action.payload.liked_posts
             state.followers = action.payload.followers
@@ -45,6 +47,7 @@ export const userSlice = createSlice({
             state.token = ''
             state.bio = ''
             state.created_at = ''
+            state.posts = []
             state.reposted_posts = []
             state.liked_posts = []
             state.followers = []

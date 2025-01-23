@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+
 
 # Create your models here.
 
@@ -10,6 +12,11 @@ class Post(models.Model):
 
     def __str__(self):
         return self.content
+    
+    def save(self, *args, **kwargs):
+        if not self.created_at:
+            self.created_at = timezone.now()
+        super().save(*args, **kwargs)
 
 
 class Comment(models.Model):
