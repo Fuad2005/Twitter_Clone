@@ -5,7 +5,7 @@ import { IMiniPost } from '@/utils/types'
 function ProfileTab({data}: {data: IMiniPost[]}) {
   return (
    <div className='flex flex-col gap-4'>
-    {data.map(post => (
+    {data?.map(post => (
         <div className='rounded bg-white shadow dark:bg-gray-800 p-3' key={post.id}>
             <p>{post.content}</p>
             <p>{post.author}</p>

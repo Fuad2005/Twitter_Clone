@@ -47,7 +47,7 @@ export default function Profile({}) {
   }, [router, dispatch, setTokenCheck])
 
   return (
-    <div className='md:ml-64'>
+    <div className='md:ml-64 min-h-[90vh]'>
       <div>
         <button onClick={logoutHandler} className='bg-red-500 hover:bg-red-400 text-white font-semibold py-2 px-4 rounded shadow absolute top-5 right-5'>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-box-arrow-right" viewBox="0 0 16 16">
@@ -60,7 +60,7 @@ export default function Profile({}) {
                 <div className='w-20 h-20 rounded-full flex items-center justify-center font-bold text-4xl bg-gray-100 dark:bg-gray-700 '>
                   {userData.username[0]?.toUpperCase()}
                 </div>
-                <p className='hidden md:block'>{userData.bio}</p>
+                <p className='hidden md:block'>{userData.bio ==="" ? 'No Bio' : userData.bio}</p>
 
               </div>
               <div className='w-1/2 flex flex-col items-center gap-5'>
@@ -81,7 +81,7 @@ export default function Profile({}) {
                 </button>
               </div>
           </div>
-          <p className='p-8 md:hidden'>{userData.bio}</p>
+          <p className='p-8 md:hidden'>{userData.bio ==="" ? 'No Bio' : userData.bio}</p>
       </div>
 
       <div>
