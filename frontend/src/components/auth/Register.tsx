@@ -43,7 +43,7 @@ export default function Register({}) {
             router.push('/auth/login');
         }).catch(err => {
             setLoading(false)
-            console.log(err.response.data)
+            // console.log(err.response.data)
             Object.values(err.response.data).forEach((value) => {
                 for(const i of value) {
                     setErrorMessage(i)
@@ -65,8 +65,8 @@ export default function Register({}) {
 
 
   return (
-    <div className="md:ml-64">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto  sm:h-[80vh] md:h-[90vh] lg:py-0">
+    <div className="md:ml-64 min-h-100vh h-auto">
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto my-0 md:my-16 lg:py-0">
         <a
           href="#"
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"

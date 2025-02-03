@@ -53,12 +53,23 @@ function Search({}) {
         ): null}
     </form>
 
-    <div className='flex flex-col gap-3'>
+    <div className='flex flex-col gap-3 mx-5'>
+        {users.length === 0 ? (
+            <div className='text-gray-500'>
+                No Users Found
+            </div>
+        ) : null}
         {users.map((user, idx) => (
-            <div key={idx} className='flex justify-between items-center p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white'>
+            <Link href={`/search/${user.id}`} key={idx} className='flex justify-between items-center p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white'>
                 <div className="flex flex-col gap-2">
-                    <div className='text-xl'>
-                        {user.user.username}
+                    <div className='flex items-center gap-4'>
+                        <div className='w-16 h-16 rounded-full flex items-center justify-center font-semibold text-2xl bg-gray-100 dark:bg-gray-800 '>
+                            {user.user.username[0]?.toUpperCase()}
+                        </div>
+                        <div className='text-xl'>
+                            {user.user.username}
+                        </div>
+
                     </div>
                     <div className='text-sm opacity-70'>
                         {user.bio.slice(0, 50) + (user.bio.length > 50 ? '...' : '')}
@@ -68,7 +79,7 @@ function Search({}) {
                 <div>
                     <Link href={`/search/${user.id}`} className='bg-blue-600 text-white rounded p-3'>Open</Link>
                 </div>
-            </div>
+            </Link>
 
         ))}
         

@@ -20,6 +20,7 @@ function ProfileDetail({id}: Props) {
     const [userData, setUserData] = React.useState<IProfileBack>({})
     const thisUserData = useSelector((state: RootState) => state.user)
     const [isFollowing, setIsFollowing] = React.useState<boolean>(false)
+    const [isThisUser, setIsThisUser] = React.useState<boolean>(false)
 
     const [tab, setTab] = React.useState<'posts' | 'likes' | 'reposts'>('posts');
     
@@ -52,6 +53,9 @@ function ProfileDetail({id}: Props) {
                   } else {
                     axios.get(`${BASE_URL}/user/get-profiles-by-id/?ids=${idNum}`)
                     .then(res => {
+                      if (thisUserData.id === idNum) {
+                        setIsThisUser(true)
+                      }
                         setUserData(res.data[0])
                         // console.log(res.data[0])
                         if(thisUserData.following.includes(res.data[0].id)) {
@@ -90,10 +94,15 @@ function ProfileDetail({id}: Props) {
                     <p>{userData.following?.length}</p>
                   </div>
               </div>
-            
-              <button onClick={handleFollow} className={`${isFollowing ? 'bg-gray-300' : 'bg-blue-500 hover:bg-blue-700'} text-white font-bold py-2 px-4 rounded`}>
-                {isFollowing ? 'Following' : 'Follow'}
-              </button>
+              {isThisUser ? (
+                null
+              ) : (
+                <button onClick={handleFollow} className={`${isFollowing ? 'bg-gray-300' : 'bg-blue-500 hover:bg-blue-700'} text-white font-bold py-2 px-4 rounded`}>
+                  {isFollowing ? 'Following' : 'Follow'}
+                </button>
+              )}
+
+
             </div>
         </div>
         <p className='p-8 md:hidden'>{userData.bio ==="" ? 'No Bio' : userData.bio}</p>

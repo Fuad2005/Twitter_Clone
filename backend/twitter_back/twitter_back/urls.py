@@ -22,4 +22,5 @@ urlpatterns = [
     path(os.getenv("ADMIN_URL"), admin.site.urls),
     path("api/user/", include("user.urls")),
     path("api/posts/", include("post.urls")),
+    path("api/", include("contact.urls"))
 ]
