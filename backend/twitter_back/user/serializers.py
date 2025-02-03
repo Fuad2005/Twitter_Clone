@@ -49,7 +49,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    user = RegisterSerializer(read_only=True)
+    user = RegisterSerializer()
     reposted_posts = serializers.SerializerMethodField()
     liked_posts = serializers.SerializerMethodField()
     posts = serializers.SerializerMethodField()
@@ -72,3 +72,15 @@ class ProfileSerializer(serializers.ModelSerializer):
     def get_posts(self, obj):
         posts = obj.posts.all()
         return [{'id': post.id ,'content': post.content, 'author': post.author.user.username, 'like_count': post.likes.count(),  'created_at': post.created_at} for post in posts]
+    
+
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user', None)
+        if user_data:
+            user = instance.user
+            user.username = user_data.get('username', user.username)
+            user.save()
+        
+        instance.bio = validated_data.get('bio', instance.bio)
+        instance.save()
+        return instance

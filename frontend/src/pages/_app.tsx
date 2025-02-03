@@ -16,6 +16,8 @@ interface AppInitializerProps {
 interface AppContextProps { 
   tokenCheck: number; 
   setTokenCheck: React.Dispatch<React.SetStateAction<number>>; 
+  refreshUserData: number;
+  setRefreshUserData: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const AppContext = createContext<AppContextProps | undefined>(undefined)
@@ -36,10 +38,11 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ children }) => {
 function App({ Component, pageProps }: AppProps) {
 
   const [tokenCheck, setTokenCheck] = React.useState<number>(0)
+  const [refreshUserData, setRefreshUserData] = React.useState<number>(0)
 
   return (
     <Provider store={store}>
-      <AppContext.Provider value={{tokenCheck, setTokenCheck}}>
+      <AppContext.Provider value={{tokenCheck, setTokenCheck, refreshUserData, setRefreshUserData}}>
         <AppInitializer>
           <Header />
           <Component {...pageProps} />

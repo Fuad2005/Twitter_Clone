@@ -6,6 +6,7 @@ import { RootState } from '@/redux/store/store';
 import Swal from 'sweetalert2';
 import ProfileTab from './ProfileTab';
 import { AppContext } from '@/pages/_app';
+import Link from 'next/link';
 
 
 export default function Profile({}) {
@@ -76,9 +77,9 @@ export default function Profile({}) {
                     </div>
                 </div>
 
-                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+                <Link href={'profile/edit'} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
                   Edit Profile
-                </button>
+                </Link>
               </div>
           </div>
           <p className='p-8 md:hidden'>{userData.bio ==="" ? 'No Bio' : userData.bio}</p>

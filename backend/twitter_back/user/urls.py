@@ -10,4 +10,5 @@ urlpatterns = [
     path("get-profile/", views.GetProfile.as_view(), name="get-profile"),
     path("get-profiles-by-id/", views.GetProfilesById.as_view(), name="get-profile-by-id"),
     path("follow/<int:pk>/", views.follow_view, name="follow"),
+    path("edit-profile/", views.edit_profile, name="edit-profile"),
 ]

@@ -66,3 +66,13 @@ def follow_view(request, pk):
         return Response({"message": "Unfollowed"}, status.HTTP_200_OK)
     current_profile.follow(profile)
     return Response({"message": "Followed"}, status.HTTP_200_OK)
+
+
+@api_view(["PATCH"])
+def edit_profile(request):
+    profile = request.user.profile
+    serializer = ProfileSerializer(profile, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"message": "Profile updated successfully"}, status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
