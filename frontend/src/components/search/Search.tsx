@@ -31,6 +31,12 @@ function Search({}) {
         })
     }, [])
 
+    React.useEffect(() => {
+        if (searchRef.current) {
+            searchRef.current.focus()
+        }
+    }, [searchRef])
+
 
   return (
     <div className='md:ml-64 min-h-[80vh]'>

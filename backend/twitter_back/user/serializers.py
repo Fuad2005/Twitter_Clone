@@ -63,15 +63,15 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def get_reposted_posts(self, obj): 
         reposted_posts = obj.reposted_posts.all()
-        return [{'id': post.id ,'content': post.content, 'author': post.author.user.username, 'like_count': post.likes.count(),  'created_at': post.created_at} for post in reposted_posts]
+        return [{'id': post.id ,'content': post.content, 'author': post.author.user.username, 'like_count': post.likes.count(), 'repost_count': post.reposted_by.count(), 'created_at': post.created_at} for post in reposted_posts]
 
     def get_liked_posts(self, obj):
         liked_posts = obj.liked_posts.all()
-        return [{'id': post.id ,'content': post.content, 'author': post.author.user.username, 'like_count': post.likes.count(),  'created_at': post.created_at} for post in liked_posts]
+        return [{'id': post.id ,'content': post.content, 'author': post.author.user.username, 'like_count': post.likes.count(), 'repost_count': post.reposted_by.count(), 'created_at': post.created_at} for post in liked_posts]
 
     def get_posts(self, obj):
         posts = obj.posts.all()
-        return [{'id': post.id ,'content': post.content, 'author': post.author.user.username, 'like_count': post.likes.count(),  'created_at': post.created_at} for post in posts]
+        return [{'id': post.id ,'content': post.content, 'author': post.author.user.username, 'like_count': post.likes.count(), 'repost_count': post.reposted_by.count(), 'created_at': post.created_at} for post in posts]
     
 
     def update(self, instance, validated_data):

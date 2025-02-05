@@ -23,6 +23,7 @@ export interface IMiniPost {
     author: string;
     created_at: string;
     like_count: number;
+    repost_count: number;
 }
 
 

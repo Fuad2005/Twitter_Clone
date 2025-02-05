@@ -6,14 +6,18 @@ from user.serializers import ProfileSerializer
 class PostSerializer(serializers.ModelSerializer):
     author = ProfileSerializer(read_only=True)
     likes = serializers.SerializerMethodField(read_only=True)
+    reposted_by = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Post
-        fields = ['id', 'content', 'author', 'likes', 'created_at']
+        fields = ['id', 'content', 'author', 'likes', 'reposted_by', 'created_at']
         read_only_fields = ['id', 'created_at']
 
     def get_likes(self, obj):
         return obj.likes.count()
+    
+    def get_reposted_by(self, obj):
+        return obj.reposted_by.count()
     
     def create(self, validated_data):
         request = self.context.get('request')

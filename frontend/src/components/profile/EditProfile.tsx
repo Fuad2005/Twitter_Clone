@@ -75,12 +75,12 @@ function EditProfile({}) {
         <form onSubmit={handleSubmit}>
             <div className=" my-4 rounded-lg flex flex-col gap-4">
                     <label htmlFor="username" className='font-bold text-xl'>Username</label>
-                <div className="px-4 py-2 bg-white rounded-lg dark:bg-gray-800">
-                    <input onChange={(e) => {setEditInto(prev => ({...prev, username: e.target.value})); setErrorMessage('')}} value={editInto.username} id="username" className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Username" required />
+                <div className="px-4 py-2 bg-gray-100 rounded-lg dark:bg-gray-800">
+                    <input onChange={(e) => {setEditInto(prev => ({...prev, username: e.target.value})); setErrorMessage('')}} value={editInto.username} id="username" className="w-full px-0 text-sm text-gray-900 bg-gray-100 border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Username" required />
                 </div>
                     <label htmlFor="bio" className='font-bold text-xl'>Bio</label>
-                <div className="px-4 py-2 bg-white rounded-lg dark:bg-gray-800">
-                    <textarea onChange={(e) => {setEditInto(prev => ({...prev, bio: e.target.value})); setErrorMessage('')}} value={editInto.bio} id="bio" rows={4} className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Bio" required ></textarea>
+                <div className="px-4 py-2 bg-gray-100 rounded-lg dark:bg-gray-800">
+                    <textarea onChange={(e) => {setEditInto(prev => ({...prev, bio: e.target.value})); setErrorMessage('')}} value={editInto.bio} id="bio" rows={4} className="w-full px-0 text-sm text-gray-900 bg-gray-100 border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Bio" required ></textarea>
                 </div>
                 <div className="flex items-center justify-center gap-4 px-3 py-2 text-center">
                     <Link href={'/profile'} className=" inline-flex items-center py-2.5 px-5 text-xs font-medium text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200 dark:focus:ring-red-900 hover:bg-red-800">
