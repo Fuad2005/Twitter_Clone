@@ -5,6 +5,7 @@ import { RootState } from '@/redux/store/store';
 import axios from 'axios';
 import { BASE_URL } from '@/utils/variables';
 import { GetUserByToken } from '@/utils/functions';
+import Link from 'next/link';
 
 
 function ProfileTab({data}: {data: IMiniPost[]}) {
@@ -17,8 +18,8 @@ function ProfileTab({data}: {data: IMiniPost[]}) {
   const dispatch = useDispatch()
 
   React.useEffect(() => {
-    console.log(thisUserData)
-  }, [thisUserData, refresh])
+    console.log(data)
+  }, [refresh, data])
 
   const handleLike = React.useCallback((post_id: number) => {
 
@@ -61,14 +62,16 @@ function ProfileTab({data}: {data: IMiniPost[]}) {
   return (
    <div className='flex flex-col gap-4'>
     {data?.map(post => (
+      <Link href={'/post/' + post.id} key={post.id} className='hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded'>
+      
         <div className='rounded bg-white shadow dark:bg-gray-800 p-3' key={post.id}>
-          <div className="flex items-center gap-2 my-2">
+          <Link href={`/search/${post.author_id}`} className="flex items-center w-full md:w-[calc(50%+20px)] lg:w-[calc(33%+20px)] gap-2 my-2 hover:text-blue-500 dark:hover:text-blue-400">
             <div className='w-10 h-10 rounded-full flex items-center justify-center font-semibold text-lg bg-gray-100 dark:bg-gray-700 '>
               {post.author[0]?.toUpperCase()}
             </div>
             <p>{post.author}</p>
             <p className='text-gray-400 text-sm'>{new Date(post.created_at).toLocaleString('default', { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false  })}</p>
-          </div>
+          </Link>
           <div className=" flex items-center gap-2 justify-between mx-5">
             <p className='basis-4/5'>{post.content.slice(0, 250) + (post.content.length > 250 ? '...' : '')}</p>
             <div className="flex flex-col gap-2">
@@ -127,6 +130,7 @@ function ProfileTab({data}: {data: IMiniPost[]}) {
 
           </div>
         </div>
+    </Link>
     ))}
    </div>
   )

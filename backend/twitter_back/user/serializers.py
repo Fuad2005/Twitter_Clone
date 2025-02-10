@@ -71,7 +71,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def get_posts(self, obj):
         posts = obj.posts.all()
-        return [{'id': post.id ,'content': post.content, 'author': post.author.user.username, 'like_count': post.likes.count(), 'repost_count': post.reposted_by.count(), 'created_at': post.created_at} for post in posts]
+        return [{'id': post.id ,'content': post.content, 'author': post.author.user.username, 'author_id': post.author.id, 'like_count': post.likes.count(), 'repost_count': post.reposted_by.count(), 'created_at': post.created_at} for post in posts]
     
 
     def update(self, instance, validated_data):

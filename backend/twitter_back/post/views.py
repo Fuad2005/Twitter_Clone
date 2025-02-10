@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from .serializers import PostSerializer
-from .models import Post
+from .models import Post, Comment
 
 # Create your views here.
 
@@ -45,3 +45,13 @@ def repost_post(request, pk):
 
 
 
+@api_view(["POST"])
+def comment_post(request, pk):
+    profile = request.user.profile
+    post = get_object_or_404(Post, pk=pk)
+    content = request.data.get('content')
+    if not content:
+        return Response({"message": "Content is required"}, status.HTTP_400_BAD_REQUEST)
+    comment = Comment.objects.create(author=profile, post=post, content=content)
+    comment.save()
+    return Response({"message": "Comment created"}, status.HTTP_201_CREATED)

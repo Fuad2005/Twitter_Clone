@@ -21,12 +21,20 @@ export interface IMiniPost {
     id: number;
     content: string;
     author: string;
+    author_id: number;
     created_at: string;
     like_count: number;
+    comments : IMiniComment[];
     repost_count: number;
 }
 
 
+export interface IMiniComment {
+    id: number;
+    content: string;
+    author: string;
+    created_at: string;
+}
 
 export interface IProfileBack {
     id: number;
@@ -38,6 +46,16 @@ export interface IProfileBack {
     followers: number[]; 
     following: number[]; 
     user: IUserBack;
+}
+
+export interface IPostDetail {
+    id: number;
+    content: string;
+    author: IProfileBack;
+    created_at: string;
+    like_count: number;
+    comments : IMiniComment[];
+    repost_count: number;
 }
 
 
